@@ -1,0 +1,2 @@
+envs:
+- DATABASE_URL
