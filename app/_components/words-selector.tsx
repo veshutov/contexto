@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils'
 import { Info } from 'lucide-react'
 import { useActionState, useEffect, useRef, useState } from 'react'
 import { submitWord, SubmitWordState } from '../actions'
+import Image from 'next/image'
 
 const initialState: SubmitWordState = {
   message: '',
@@ -67,13 +68,14 @@ export default function WordsSelector({
   }, [state.foundWord])
   return (
     <main className="flex flex-col items-center pt-[10%] px-6 md:px-0 min-h-screen">
-      <div className="w-full flex items-center mb-6">
-        <h1 className="w-full text-center text-3xl font-bold ml-5">
-          Один контекст
-        </h1>
+      <div className="w-full flex justify-center mb-6">
+          <div className="hidden md:block size-[40px] relative">
+            <Image src="/icon.png" alt="Один контекст" fill />
+          </div>
+          <h1 className="text-center text-3xl font-bold md:ml-3">Один контекст</h1>
         <Dialog>
           <DialogTrigger asChild>
-            <Info className="cursor-pointer mt-1.5" />
+            <Info className="cursor-pointer mt-2.5 ml-3" />
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://1context.ru/sitemap.xml
