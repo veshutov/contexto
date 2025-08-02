@@ -1,35 +1,67 @@
 import { logger } from '@/logger'
 import 'dotenv/config'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/node-postgres'
-import { Word, words } from './schema'
+import { guess, words } from './schema'
 
 export const db = drizzle(process.env.DATABASE_URL!)
 
-export async function findGuessedWords() {
+export async function findGuessedWords({
+  date,
+  userId,
+}: {
+  date: Date
+  userId: string
+}) {
   try {
-    const foundWords = await db
-      .select()
-      .from(words)
-      .where(eq(words.guessed, true))
-      return foundWords
+    const guessedWords = await db
+      .select({ word: words.word, rank: words.rank })
+      .from(guess)
+      .innerJoin(words, eq(words.word, guess.word))
+      .where(and(eq(guess.userId, userId), eq(guess.date, date), eq(words.date, date)))
+    return guessedWords
   } catch (error) {
     logger.error('Failed to get guessed words from database')
     throw error
   }
 }
 
-export async function setGuessed({
-  id,
+export async function tryGuess({
+  date,
+  userId,
+  word,
 }: {
-  id: string
-}): Promise<Word | undefined> {
+  date: Date
+  userId: string
+  word: string
+}) {
+  try {
+    const foundWord = await findWord({ word, date })
+    if (foundWord == null) {
+      return undefined
+    }
+    await db
+      .insert(guess)
+      .values({
+        date: date,
+        userId: userId,
+        word: word,
+      })
+      .onConflictDoNothing()
+      .returning()
+    return foundWord
+  } catch (error) {
+    logger.error('Failed to insert guess in database')
+    throw error
+  }
+}
+
+export async function findWord({ word, date }: { word: string; date: Date }) {
   try {
     const foundWords = await db
-      .update(words)
-      .set({ guessed: true })
-      .where(eq(words.id, id))
-      .returning()
+      .select()
+      .from(words)
+      .where(and(eq(words.word, word), eq(words.date, date)))
     if (foundWords.length == 0) {
       return undefined
     } else {

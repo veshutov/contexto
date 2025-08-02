@@ -1,1 +1,0 @@
-ALTER TABLE "words" ADD COLUMN "guessed" boolean DEFAULT false NOT NULL;

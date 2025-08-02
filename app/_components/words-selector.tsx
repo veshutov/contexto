@@ -74,6 +74,13 @@ export default function WordsSelector({
             placeholder="введите слово"
             className="dark:bg-zinc-800 md:text-2xl md:px-4 md:py-6 mb-4 border-2"
           />
+          <Input
+            hidden
+            readOnly
+            name="date"
+            type="date"
+            value={new Date().toISOString().split('T')[0]}
+          />
         </form>
         {pending && <p className="text-lg mb-4 px-3 py-2">Загрузка...</p>}
         {!pending && state.message && (

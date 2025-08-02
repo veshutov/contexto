@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1754066422678,
-      "tag": "0000_goofy_luminals",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1754070008575,
-      "tag": "0001_chief_wrecking_crew",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1754125410532,
-      "tag": "0002_petite_nightcrawler",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1754125792042,
-      "tag": "0003_famous_harpoon",
+      "when": 1754133901916,
+      "tag": "0000_loud_xavin",
       "breakpoints": true
     }
   ]
