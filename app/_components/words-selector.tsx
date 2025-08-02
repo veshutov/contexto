@@ -38,10 +38,10 @@ export default function WordsSelector({
   }, [state.foundWord])
   return (
     <main className="flex flex-col items-center pt-[10%] min-h-screen">
-      <div className="md:w-[400px]">
+      <div className="md:w-[450px]">
         {guessed && (
           <div className="text-center mb-14">
-            <h1 className="text-4xl">Вы отгадали слово 🎉</h1>
+            <h1 className="text-4xl">Вы отгадали слово дня 🎉</h1>
             <h1 className="text-2xl mt-2">Попыток: {words.length}</h1>
           </div>
         )}
