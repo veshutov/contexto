@@ -1,10 +1,10 @@
 'use client'
 
 import { Input } from '@/components/ui/input'
-import { submitWord, SubmitWordState } from '../actions'
-import { useActionState, useEffect, useState } from 'react'
+import { authClient } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
-import { authClient } from "@/lib/auth-client"
+import { useActionState, useEffect, useRef, useState } from 'react'
+import { submitWord, SubmitWordState } from '../actions'
 
 const initialState: SubmitWordState = {
   message: '',
@@ -20,25 +20,31 @@ export default function WordsSelector({
 }: {
   initialWords: Array<Word>
 }) {
-  authClient.getSession().then(res => {
-    const session = res.data
-    if (session == null) {
-      authClient.signIn.anonymous().then(d => {
-        console.log("Signed in")
-      })
-    } else {
-      console.log("Already signed in")
-    }
-  })
+  useEffect(() => {
+    authClient.getSession().then((res) => {
+      const session = res.data
+      if (session == null) {
+        authClient.signIn.anonymous().then(() => {
+          console.log('Signed in')
+        })
+      } else {
+        console.log('Already signed in')
+      }
+    })
+  }, [])
 
   const [guessed, setGuessed] = useState(
     initialWords.find((w) => w.rank == 1) != null,
   )
   const [words, setWords] = useState(initialWords)
   const [state, formAction, pending] = useActionState(submitWord, initialState)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    if (state.foundWord && words.find(w => w.word == state.foundWord) == null) {
+    if (
+      state.foundWord &&
+      words.find((w) => w.word == state.foundWord) == null
+    ) {
       setWords([
         ...words,
         { word: state.foundWord, rank: state.foundWordRank! },
@@ -47,6 +53,7 @@ export default function WordsSelector({
         setGuessed(true)
       }
     }
+    inputRef.current?.focus()
   }, [state.foundWord])
   return (
     <main className="flex flex-col items-center pt-[10%] min-h-screen">
@@ -59,6 +66,8 @@ export default function WordsSelector({
         )}
         <form action={formAction}>
           <Input
+            ref={inputRef}
+            autoFocus
             disabled={pending}
             name="word"
             autoComplete="off"
@@ -67,7 +76,9 @@ export default function WordsSelector({
           />
         </form>
         {pending && <p className="text-lg mb-4 px-3 py-2">Загрузка...</p>}
-        {!pending && state.message && <p className="text-lg mb-4 px-3 py-2 text-red-500">{state.message} </p>}
+        {!pending && state.message && (
+          <p className="text-lg mb-4 px-3 py-2 text-red-500">{state.message}</p>
+        )}
         {!pending && state.foundWord && (
           <div
             className={cn(
