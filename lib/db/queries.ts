@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm'
 import { drizzle } from 'drizzle-orm/node-postgres'
 import { Word, words } from './schema'
 
-const db = drizzle(process.env.DATABASE_URL!)
+export const db = drizzle(process.env.DATABASE_URL!)
 
 export async function findGuessedWords() {
   try {
