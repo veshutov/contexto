@@ -1,8 +1,17 @@
 'use client'
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { authClient } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
+import { Info } from 'lucide-react'
 import { useActionState, useEffect, useRef, useState } from 'react'
 import { submitWord, SubmitWordState } from '../actions'
 
@@ -54,10 +63,43 @@ export default function WordsSelector({
       }
     }
     inputRef.current?.focus()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.foundWord])
   return (
-    <main className="flex flex-col items-center pt-[10%] min-h-screen">
-      <div className="md:w-[450px]">
+    <main className="flex flex-col items-center pt-[10%] px-6 md:px-0 min-h-screen">
+      <div className="w-full flex items-center mb-6">
+        <h1 className="w-full text-center text-3xl font-bold ml-5">
+          Один контекст
+        </h1>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Info className="cursor-pointer mt-1.5" />
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="mb-2">Как играть?</DialogTitle>
+              <DialogDescription className="text-md">
+                Каждый день загадывается секретное слово, ваша задача – угадать
+                его.
+                <br />
+                <br />
+                Слова были отсортированы алгоритмом искусственного интеллекта по
+                степени схожести с секретным словом.
+                <br />
+                <br />
+                После ввода слова вы увидите его позицию. Секретное слово –
+                номер 1. У вас неограниченное количество попыток.
+                <br />
+                <br />
+                Алгоритм проанализировал тысячи текстов. Он использует контекст,
+                в котором используются слова, для вычисления степени их
+                схожести.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="w-full md:w-[450px]">
         {guessed && (
           <div className="text-center mb-14">
             <h1 className="text-4xl">Вы отгадали слово дня 🎉</h1>
@@ -72,7 +114,7 @@ export default function WordsSelector({
             name="word"
             autoComplete="off"
             placeholder="введите слово"
-            className="dark:bg-zinc-800 md:text-2xl md:px-4 md:py-6 mb-4 border-2"
+            className="dark:bg-zinc-800 text-2xl md:text-2xl px-4 py-6 mb-4 border"
           />
           <Input
             hidden
