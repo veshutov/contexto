@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input'
 import { submitWord, SubmitWordState } from '../actions'
 import { useActionState, useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
+import { authClient } from "@/lib/auth-client"
 
 const initialState: SubmitWordState = {
   message: '',
@@ -19,6 +20,17 @@ export default function WordsSelector({
 }: {
   initialWords: Array<Word>
 }) {
+  authClient.getSession().then(res => {
+    const session = res.data
+    if (session == null) {
+      authClient.signIn.anonymous().then(d => {
+        console.log("Signed in")
+      })
+    } else {
+      console.log("Already signed in")
+    }
+  })
+
   const [guessed, setGuessed] = useState(
     initialWords.find((w) => w.rank == 1) != null,
   )
