@@ -53,7 +53,7 @@ export default function ContextGame({
   }, [guess.word])
 
   return (
-    <main className="flex flex-col items-center pt-[10%] px-6 md:px-0 min-h-screen">
+    <main className="flex flex-col items-center pt-[10%] px-6 md:px-0">
       <div className="w-full flex justify-center mb-6">
         <div className="hidden md:block size-[40px] relative">
           <Image src="/icon-192x192.png" alt="Один контекст" fill />
@@ -61,7 +61,7 @@ export default function ContextGame({
         <h1 className="text-center text-3xl font-bold md:ml-3">
           Один контекст
         </h1>
-        <InfoIcon className="cursor-pointer mt-2.5 ml-3" />
+        <InfoIcon className="cursor-pointer mt-2 ml-3" />
       </div>
       <div className="w-full md:w-[450px]">
         {guessed && (
