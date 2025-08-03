@@ -42,7 +42,7 @@ export async function submitWord(
     word: formData.get('word'),
     date: formData.get('date'),
   })
-  const word = validatedFields.word
+  const word = validatedFields.word.toLocaleLowerCase()
   const date = validatedFields.date
   const userId = userIdCookie.value
 
