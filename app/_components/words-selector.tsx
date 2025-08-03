@@ -70,7 +70,7 @@ export default function WordsSelector({
     <main className="flex flex-col items-center pt-[10%] px-6 md:px-0 min-h-screen">
       <div className="w-full flex justify-center mb-6">
           <div className="hidden md:block size-[40px] relative">
-            <Image src="/icon.png" alt="Один контекст" fill />
+            <Image src="/icon-512x512.png" alt="Один контекст" fill />
           </div>
           <h1 className="text-center text-3xl font-bold md:ml-3">Один контекст</h1>
         <Dialog>
