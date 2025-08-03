@@ -7,7 +7,7 @@ export default async function MainPage() {
   const gameDate = new Date().toISOString().split('T')[0]
   const gameWon = guessedWords.find((w) => w.rank == 1) != null
   return (
-    <main className="flex flex-col items-center min-h-screen">
+    <main className="flex flex-1 flex-col items-center">
       <ContextGame gameDate={gameDate} gameWon={gameWon} initialWords={guessedWords} />
     </main>
   )
