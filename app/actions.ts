@@ -16,13 +16,15 @@ export async function getGuessedWords({ date }: { date: Date }) {
 }
 
 const submitWordSchema = z.object({
-  word: z.string().min(1).max(20),
+  word: z.string().min(1).max(50),
   date: z.string().transform((str) => new Date(str)),
 })
 
 export type SubmitWordState = {
-  foundWord?: string
-  foundWordRank?: number
+  word?: {
+    word: string
+    rank: number
+  }
   message?: string
 }
 
@@ -54,5 +56,5 @@ export async function submitWord(
     return { message: 'Слово не найдено' }
   }
 
-  return { foundWord: foundWord.word, foundWordRank: foundWord.rank }
+  return { word: { word: foundWord.word, rank: foundWord.rank } }
 }
