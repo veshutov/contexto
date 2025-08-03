@@ -55,7 +55,7 @@ const YANDEX_METRICA = `\
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=103578696', 'ym');
 
-    ym(103578696, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+    ym(103578696, 'init', {ssr:true, clickmap:true, accurateTrackBounce:true, trackLinks:true});
 `
 
 export default function RootLayout({
