@@ -9,12 +9,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { authClient } from '@/lib/auth-client'
-import { cn } from '@/lib/utils'
+import { cn, USER_ID_COOKIE } from '@/lib/utils'
 import { Info } from 'lucide-react'
-import { useActionState, useEffect, useRef, useState } from 'react'
-import { submitWord, SubmitWordState } from '../actions'
 import Image from 'next/image'
+import { useActionState, useEffect, useRef, useState } from 'react'
+import { v7 as uuidv7 } from 'uuid'
+import { submitWord, SubmitWordState } from '../actions'
 
 const initialState: SubmitWordState = {
   message: '',
@@ -31,16 +31,9 @@ export default function WordsSelector({
   initialWords: Array<Word>
 }) {
   useEffect(() => {
-    authClient.getSession().then((res) => {
-      const session = res.data
-      if (session == null) {
-        authClient.signIn.anonymous().then(() => {
-          console.log('Signed in')
-        })
-      } else {
-        console.log('Already signed in')
-      }
-    })
+    if (!document.cookie.includes(USER_ID_COOKIE)) {
+      document.cookie = `${USER_ID_COOKIE}=${uuidv7()}`
+    }
   }, [])
 
   const [guessed, setGuessed] = useState(
@@ -69,10 +62,12 @@ export default function WordsSelector({
   return (
     <main className="flex flex-col items-center pt-[10%] px-6 md:px-0 min-h-screen">
       <div className="w-full flex justify-center mb-6">
-          <div className="hidden md:block size-[40px] relative">
-            <Image src="/icon-512x512.png" alt="Один контекст" fill />
-          </div>
-          <h1 className="text-center text-3xl font-bold md:ml-3">Один контекст</h1>
+        <div className="hidden md:block size-[40px] relative">
+          <Image src="/icon-192x192.png" alt="Один контекст" fill />
+        </div>
+        <h1 className="text-center text-3xl font-bold md:ml-3">
+          Один контекст
+        </h1>
         <Dialog>
           <DialogTrigger asChild>
             <Info className="cursor-pointer mt-2.5 ml-3" />
@@ -103,7 +98,7 @@ export default function WordsSelector({
       </div>
       <div className="w-full md:w-[450px]">
         {guessed && (
-          <div className="text-center mb-14">
+          <div className="text-center mb-10">
             <h1 className="text-4xl">Вы отгадали слово дня 🎉</h1>
             <h1 className="text-2xl mt-2">Попыток: {words.length}</h1>
           </div>

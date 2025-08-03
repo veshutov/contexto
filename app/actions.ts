@@ -1,19 +1,18 @@
 'use server'
 
-import { auth } from '@/lib/auth'
 import { findGuessedWords, tryGuess } from '@/lib/db/queries'
-import { headers } from 'next/headers'
+import { USER_ID_COOKIE } from '@/lib/utils'
+import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 export async function getGuessedWords({ date }: { date: Date }) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-  if (session?.user.id == null) {
+  const cookieStore = await cookies()
+  const userIdCookie = cookieStore.get(USER_ID_COOKIE)
+  if (userIdCookie == null) {
     return []
   }
 
-  return await findGuessedWords({ date, userId: session.user.id })
+  return await findGuessedWords({ date, userId: userIdCookie.value })
 }
 
 const submitWordSchema = z.object({
@@ -31,10 +30,9 @@ export async function submitWord(
   initialState: SubmitWordState,
   formData: FormData,
 ): Promise<SubmitWordState> {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-  if (session?.user.id == null) {
+  const cookieStore = await cookies()
+  const userIdCookie = cookieStore.get(USER_ID_COOKIE)
+  if (userIdCookie == null) {
     return { message: 'Ошибка авторизации' }
   }
 
@@ -44,7 +42,7 @@ export async function submitWord(
   })
   const word = validatedFields.word
   const date = validatedFields.date
-  const userId = session.user.id
+  const userId = userIdCookie.value
 
   const foundWord = await tryGuess({
     date,
