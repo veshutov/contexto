@@ -74,7 +74,6 @@ export default function ContextGame({
           <Input
             ref={inputRef}
             autoFocus
-            disabled={pending}
             name="word"
             autoComplete="off"
             placeholder="введите слово"
