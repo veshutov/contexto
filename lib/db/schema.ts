@@ -1,6 +1,7 @@
 import { InferSelectModel } from 'drizzle-orm'
 import {
   date,
+  foreignKey,
   integer,
   pgTable,
   primaryKey,
@@ -30,7 +31,13 @@ export const guess = pgTable(
       .notNull()
       .defaultNow(),
   },
-  (guess) => [primaryKey({ columns: [guess.userId, guess.date, guess.word] })],
+  (guess) => [
+    primaryKey({ columns: [guess.userId, guess.date, guess.word] }),
+    foreignKey({
+      columns: [guess.date, guess.word],
+      foreignColumns: [words.date, words.word],
+    }),
+  ],
 )
 
 export type Guess = InferSelectModel<typeof guess>

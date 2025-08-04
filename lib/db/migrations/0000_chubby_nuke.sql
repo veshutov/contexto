@@ -12,3 +12,5 @@ CREATE TABLE "word" (
 	"date" date NOT NULL,
 	CONSTRAINT "word_word_date_pk" PRIMARY KEY("word","date")
 );
+--> statement-breakpoint
+ALTER TABLE "guess" ADD CONSTRAINT "guess_date_word_word_date_word_fk" FOREIGN KEY ("date","word") REFERENCES "public"."word"("date","word") ON DELETE no action ON UPDATE no action;

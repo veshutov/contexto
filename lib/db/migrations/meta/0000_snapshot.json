@@ -1,5 +1,5 @@
 {
-  "id": "ac432e72-5bc0-4122-9774-fd360fdba883",
+  "id": "78ca2b15-3b7e-49c6-97fa-857fbd083113",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -35,7 +35,23 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "guess_date_word_word_date_word_fk": {
+          "name": "guess_date_word_word_date_word_fk",
+          "tableFrom": "guess",
+          "tableTo": "word",
+          "columnsFrom": [
+            "date",
+            "word"
+          ],
+          "columnsTo": [
+            "date",
+            "word"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
         "guess_user_id_date_word_pk": {
           "name": "guess_user_id_date_word_pk",
