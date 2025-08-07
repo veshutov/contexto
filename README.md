@@ -1,4 +1,4 @@
-# Contexto.me game clone
+# Contexto.me game clone (russian words)
 
 Try it out – https://1context.ru
 
@@ -8,7 +8,7 @@ Embeddings – https://github.com/natasha/navec
 
 Dataset – https://github.com/Badestrand/russian-dictionary
 
-Data prep – words-data.ipynb (use python 3.10)
+Data prep and automatic solution – words-data.ipynb (use python 3.10)
 
 Envs:
   - DATABASE_URL
