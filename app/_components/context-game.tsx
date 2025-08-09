@@ -70,7 +70,14 @@ export default function ContextGame({
             <h1 className="text-2xl mt-2">Попыток: {words.length}</h1>
           </div>
         )}
-        <form action={submitWordFormAction}>
+        <form
+          action={(formData: FormData) => {
+            const word = formData.get('word')
+            if (word) {
+              submitWordFormAction(formData)
+            }
+          }}
+        >
           <Input
             ref={inputRef}
             autoFocus

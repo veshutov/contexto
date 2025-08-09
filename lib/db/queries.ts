@@ -38,17 +38,18 @@ export async function tryGuess({
   try {
     const foundWord = await findWord({ word, date })
     if (foundWord == null) {
+      // слова нет в нашем словаре
       return undefined
     }
     await db
       .insert(guess)
       .values({
-        date: date,
-        userId: userId,
-        word: word,
+        date,
+        userId,
+        word,
       })
+      // если такая попытка уже была, просто возвращаем ее
       .onConflictDoNothing()
-      .returning()
     return foundWord
   } catch (error) {
     logger.error('Failed to insert guess in database')
